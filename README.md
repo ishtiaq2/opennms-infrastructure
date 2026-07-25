@@ -33,6 +33,9 @@ Clone Repo:
     git remote set-url origin git@github.com:ishtiaq2/opennms-infrastructure.git
     Test the connection:
     ssh -T git@github.com
+  8.[admin@localhost opennms-infrastructure]$ git config --global user.name "Muhammad Ishtiaq Hussain"
+    [admin@localhost opennms-infrastructure]$ git config --global user.email "muis0121@gmail.com"
+  
   
 Copy the repo to your development machine:
   sudo sshfs -o allow_other admin@<centos-ip>://home/admin/apache/opennms-infrastructure ./
