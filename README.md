@@ -34,6 +34,7 @@ Clone Repo:
     Test the connection:
     ssh -T git@github.com
   8. [admin@localhost opennms-infrastructure]$ git config --global user.name "Muhammad Ishtiaq Hussain"
+  
      [admin@localhost opennms-infrastructure]$ git config --global user.email "muis0121@gmail.com"
   
   
