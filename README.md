@@ -16,4 +16,5 @@ Steps:
   5. sudo dnf update -y && sudo dnf install -y java-17-openjdk-devel maven git podman wget curl nano
 
 Clone Repo: 
+  git clone https://github.com/ishtiaq2/opennms-infrastructure.git
      
