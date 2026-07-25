@@ -16,6 +16,24 @@ Steps:
   5. sudo dnf update -y && sudo dnf install -y java-17-openjdk-devel maven git podman wget curl nano
 
 Clone Repo: 
-  git clone https://github.com/ishtiaq2/opennms-infrastructure.git
+  1. git clone https://github.com/ishtiaq2/opennms-infrastructure.git
 
-sudo sshfs -o allow_other admin@<centos-ip>://home/admin/apache/opennms-infrastructure ./
+  The following is for my personal use:
+  3. ssh-keygen
+  4. ssh-add ~/.ssh/id_ed25519
+  5. cat ~/.ssh/id_ed25519.pub and copy the entire output.
+  6. Add it to GitHub
+     a Sign in to GitHub and Go to Settings → SSH and GPG keys.
+     b. Click New SSH key and Paste the key and save.
+    
+  7. Change the repository to use SSH
+    Check your current remote:
+    git remote -v
+    Change it:
+    git remote set-url origin git@github.com:ishtiaq2/opennms-infrastructure.git
+    Test the connection:
+    ssh -T git@github.com
+  
+Copy the repo to your development machine:
+  sudo sshfs -o allow_other admin@<centos-ip>://home/admin/apache/opennms-infrastructure ./
+  
