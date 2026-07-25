@@ -1,5 +1,5 @@
 Goal:
-1. To understand OpenNMS from a Software Architect and Software engineer point of view.
+1. To understand OpenNMS from a Software Architect and Software Engineer point of view.
 2. It's building blocks.
 3. The underlying tecnologies, tools and infrastures.
 4. Why OpenNMS rely on those technologies
