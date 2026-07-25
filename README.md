@@ -17,4 +17,5 @@ Steps:
 
 Clone Repo: 
   git clone https://github.com/ishtiaq2/opennms-infrastructure.git
-     
+
+sudo sshfs -o allow_other admin@<centos-ip>://home/admin/apache/opennms-infrastructure ./
