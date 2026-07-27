@@ -4,8 +4,8 @@
 # 🎯 Project Objectives
   This repository serves as a hands-on learning environment to deconstruct OpenNMS from a Software Engineering and Architectural perspective. The primary goals are to understand:
 
-  1. Architectural Breakdown: The core building blocks and subsystems of OpenNMS.
-  2. Technology Stack: The underlying technologies, tools, and infrastructure (e.g., Apache Karaf, OSGi, Apache Felix, Maven).
+* Architectural Breakdown: The core building blocks and subsystems of OpenNMS.
+* Technology Stack: The underlying technologies, tools, and infrastructure (e.g., Apache Karaf, OSGi, Apache Felix, Maven).
   3. Design Justification: Why OpenNMS relies on this specific tech stack for enterprise-grade network management (e.g., zero-downtime 
      hot-swapping, modularity).
   4. Cross-Domain Application: How these underlying technologies and architectural patterns are utilized in other software domains outside 
