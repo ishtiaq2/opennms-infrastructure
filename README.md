@@ -14,7 +14,8 @@
 
 # 🚀 Environment Setup
   1. Virtualization & Operating System
-     This environment is built to run on a local Virtual Machine.
+    
+    This environment is built to run on a local Virtual Machine.
 
     * Hypervisor: Install VirtualBox (or VMware). This guide assumes Oracle VM VirtualBox Manager.
     * Operating System: Download and install CentOS Stream 9.
@@ -22,17 +23,23 @@
         (https://odcs.stream.centos.org/production/latest-CentOS-Stream/compose/BaseOS/x86_64/iso/?utm_source=chatgpt.com)
 
   2. System Provisioning
+
     Once CentOS is installed, log in as root (or a user with sudo privileges) and set up the dedicated admin user:
+
     * Create the user and set a password
       useradd admin
       passwd admin
+
     * Add the user to the sudoers (wheel) group
       usermod -aG wheel admin
+
     * Verify the user groups
       id admin
     
   3. Log in as the new admin user and install the required development tools:
+
     * sudo dnf update -y
+    
     * sudo dnf install -y java-17-openjdk-devel maven git podman wget curl nano
 
 # Cloning the Repository
@@ -42,28 +49,32 @@
 
 # 💻 Developer Configuration (Personal Setup)
   The following steps are for the repository maintainer to configure SSH access and Git identity for pushing commits.
+
   * Generate and Add SSH Keys
-    # Generate a new Ed25519 SSH key
-    ssh-keygen -t ed25519 -C "muis0121@gmail.com"
-    # Start the ssh-agent and add the key
-  * eval "$(ssh-agent -s)"
-  * ssh-add ~/.ssh/id_ed25519
-    # Output the public key to the terminal
-  * cat ~/.ssh/id_ed25519.pub
+    ** Generate a new Ed25519 SSH key
+       ssh-keygen -t ed25519 -C "muis0121@gmail.com"
+
+  * Start the ssh-agent and add the key
+    ** eval "$(ssh-agent -s)"
+    ** ssh-add ~/.ssh/id_ed25519
+
+  * Output the public key to the terminal
+    ** cat ~/.ssh/id_ed25519.pub
 
   Copy the output, sign in to GitHub, navigate to Settings → SSH and GPG keys → New SSH key, paste the key, and save.
 
   # Update Git Remote & Test Connection
-    # Test the GitHub SSH connection
+
+    ## Test the GitHub SSH connection
     * ssh -T git@github.com
 
-    # Change the repository remote URL from HTTPS to SSH
+    ## Change the repository remote URL from HTTPS to SSH
     * git remote set-url origin git@github.com:ishtiaq2/opennms-infrastructure.git
 
-    # Verify the change
+    ## Verify the change
     * git remote -v
 
-  # Configure Git Identity  
+  ## Configure Git Identity  
     * git config --global user.name "Muhammad Ishtiaq Hussain"
     * git config --global user.email "muis0121@gmail.com"  
 
