@@ -1,7 +1,7 @@
 
-## OpenNMS Architecture & Infrastructure Exploration ***
+# OpenNMS Architecture & Infrastructure Exploration
 
-# 🎯 Project Objectives
+## 🎯 Project Objectives
   This repository serves as a hands-on learning environment to deconstruct OpenNMS from a Software Engineering and Architectural perspective. The primary goals are to understand:
 
 * Architectural Breakdown: The core building blocks and subsystems of OpenNMS.
@@ -12,19 +12,18 @@
   of OpenNMS.
 * Alternative to OSGI and Karaf   
 
-# 🚀 Environment Setup
+## 🚀 Environment Setup
 
-## Virtualization & Operating System
+### Virtualization & Operating System
     
-  * This environment is built to run on a local Virtual Machine.
+  This environment is built to run on a local Virtual Machine.
 
-  ** Hypervisor: Install VirtualBox (or VMware). This guide assumes Oracle VM VirtualBox Manager.
-  ** Operating System: Download and install CentOS Stream 9.
+  * Hypervisor: Install VirtualBox (or VMware). This guide assumes Oracle VM VirtualBox Manager.
+  * Operating System: Download and install CentOS Stream 9.
         ISO Used: CentOS-Stream-9-20260723.0-x86_64-boot.iso 
         (https://odcs.stream.centos.org/production/latest-CentOS-Stream/compose/BaseOS/x86_64/iso/?utm_source=chatgpt.com)
 
-  2. System Provisioning
-
+  #### System Provisioning:
     Once CentOS is installed, log in as root (or a user with sudo privileges) and set up the dedicated admin user:
 
     * Create the user and set a password
