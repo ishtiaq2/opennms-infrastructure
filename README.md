@@ -1,24 +1,25 @@
 
-*  *** OpenNMS Architecture & Infrastructure Exploration ***
+## OpenNMS Architecture & Infrastructure Exploration ***
 
 # 🎯 Project Objectives
   This repository serves as a hands-on learning environment to deconstruct OpenNMS from a Software Engineering and Architectural perspective. The primary goals are to understand:
 
 * Architectural Breakdown: The core building blocks and subsystems of OpenNMS.
 * Technology Stack: The underlying technologies, tools, and infrastructure (e.g., Apache Karaf, OSGi, Apache Felix, Maven).
-  3. Design Justification: Why OpenNMS relies on this specific tech stack for enterprise-grade network management (e.g., zero-downtime 
-     hot-swapping, modularity).
-  4. Cross-Domain Application: How these underlying technologies and architectural patterns are utilized in other software domains outside 
-     of OpenNMS.
-  5. Alternative to OSGI and Karaf   
+* Design Justification: Why OpenNMS relies on this specific tech stack for enterprise-grade network management (e.g., zero-downtime 
+  hot-swapping, modularity).
+* Cross-Domain Application: How these underlying technologies and architectural patterns are utilized in other software domains outside 
+  of OpenNMS.
+* Alternative to OSGI and Karaf   
 
 # 🚀 Environment Setup
-  1. Virtualization & Operating System
-    
-    This environment is built to run on a local Virtual Machine.
 
-    * Hypervisor: Install VirtualBox (or VMware). This guide assumes Oracle VM VirtualBox Manager.
-    * Operating System: Download and install CentOS Stream 9.
+## Virtualization & Operating System
+    
+  * This environment is built to run on a local Virtual Machine.
+
+  ** Hypervisor: Install VirtualBox (or VMware). This guide assumes Oracle VM VirtualBox Manager.
+  ** Operating System: Download and install CentOS Stream 9.
         ISO Used: CentOS-Stream-9-20260723.0-x86_64-boot.iso 
         (https://odcs.stream.centos.org/production/latest-CentOS-Stream/compose/BaseOS/x86_64/iso/?utm_source=chatgpt.com)
 
