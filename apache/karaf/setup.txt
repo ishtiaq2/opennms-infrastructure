@@ -4,7 +4,15 @@ tar -xzf apache-karaf-4.4.11.tar.gz
 ./apache-karaf-4.4.11/bin/karaf
 
 Command                     What you should look for
+
 bundle:list                 Shows all active user-level OSGi bundles. Notice they all have an ID, State (Active), and Version.
 feature:list                Shows the massive library of available features. Most are uninstalled.
 feature:list | grep -i web  Filters the list. You will see features like http and http-whiteboard which OpenNMS uses for REST APIs.
 log:tail                    Streams the live system logs. Press Ctrl+C to exit the log view and return to the prompt.
+
+
+Expose Apache Felix (The Kernel)
+
+By default, Karaf hides the core framework (Felix) so you don't accidentally break it. Let's peel back the curtain.
+Run this command to show system threshold bundles:
+bundle:list -t 0
