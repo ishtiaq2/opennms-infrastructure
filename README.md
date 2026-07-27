@@ -29,11 +29,11 @@ This environment is built to run on a local Virtual Machine.
   * useradd admin
   * passwd admin
 
-* Add the user to the sudoers (wheel) group
-  usermod -aG wheel admin
+#### Add the user to the sudoers (wheel) group
+* usermod -aG wheel admin
 
-* Verify the user groups
-  id admin
+Verify the user groups
+*  id admin
     
 #### Log in as the new admin user and install the required development tools:
 * sudo dnf update -y    
