@@ -39,12 +39,12 @@ Verify the user groups
 * sudo dnf update -y    
 * sudo dnf install -y java-17-openjdk-devel maven git podman wget curl nano
 
-### Cloning the Repository
+## Cloning the Repository
   Clone this repository into your VM:
   * git clone https://github.com/ishtiaq2/opennms-infrastructure.git
   * cd opennms-infrastructure
 
-### 💻 Developer Configuration (Personal Setup)
+## 💻 Developer Configuration (Personal Setup)
   The following steps are for the repository maintainer to configure SSH access and Git identity for pushing commits.
 
   * Generate and Add SSH Keys
