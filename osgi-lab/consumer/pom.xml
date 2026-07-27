@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example.osgi</groupId>
+    <artifactId>consumer</artifactId>
+    <version>1.0.0</version>
+    
+    <!-- Crucial for OSGi: builds a bundle, not a standard JAR -->
+    <packaging>bundle</packaging>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- Provides the @Component, @Reference, @Activate annotations -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.service.component.annotations</artifactId>
+            <version>1.4.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- We must depend on the Provider to see the GreetingService interface -->
+        <dependency>
+            <groupId>com.example.osgi</groupId>
+            <artifactId>provider</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope> <!-- At runtime, OSGi wires this for us -->
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Generates the OSGi MANIFEST.MF automatically -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>5.1.9</version>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
