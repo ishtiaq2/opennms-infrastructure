@@ -25,9 +25,9 @@ This environment is built to run on a local Virtual Machine.
 #### System Provisioning:
   Once CentOS is installed, log in as root (or a user with sudo privileges) and set up the dedicated admin user:
 
-* Create the user and set a password
-  useradd admin
-  passwd admin
+##### Create the user and set a password
+  * useradd admin
+  * passwd admin
 
 * Add the user to the sudoers (wheel) group
   usermod -aG wheel admin
