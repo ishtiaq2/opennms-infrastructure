@@ -67,6 +67,33 @@ If OSGi did that, OpenNMS would drop thousands of packets every time a new plugi
 
 To prevent this, OSGi Declarative Services (DS) uses a feature called **Dynamic Reference Policies**. Here is exactly how SCR updates the live object in memory without ever restarting it.
 
+                     Apache Karaf
+                          │
+                          │
+                  OSGi Service Registry
+                          │
+        ┌─────────────────┼──────────────────┐
+        │                 │                  │
+        │                 │                  │
+ SNMP Monitor      HTTP Monitor      ICMP Monitor
+(ServiceMonitor) (ServiceMonitor)  (ServiceMonitor)
+        │                 │                  │
+        └─────────────────┼──────────────────┘
+                          │
+                SCR (Declarative Services)
+            Automatically injects services
+                          │
+                          ▼
+                 PollerDaemon Component
+                          │
+             CopyOnWriteArrayList<ServiceMonitor>
+                          │
+                          ▼
+                 Polling Scheduler Thread
+
+### Notice that PollerDaemon never creates the monitors.
+  * It simply says: "Give me every ServiceMonitor that exists."
+
 ### The Secret: ReferencePolicy.DYNAMIC
 
 When an OpenNMS developer writes the `PollerDaemon` code, they don't just ask for a List. They explicitly tell SCR: *"I want this list to be updated on the fly. Do not reboot me when things change."*
@@ -106,8 +133,126 @@ public class PollerDaemon {
         this.monitors.remove(oldMonitor);
     }
 }
-
 ```
+
+What Does @Reference Mean?
+@Reference(
+    cardinality = MULTIPLE,
+    policy = DYNAMIC
+)
+
+It tells SCR: I need ALL ServiceMonitor services.
+
+Whenever one appears
+
+↓
+
+call addMonitor()
+
+Whenever one disappears
+
+↓
+
+call removeMonitor()
+
+Think of it like a subscription.
+
+             OSGi Registry
+
+      New Service Registered
+               │
+               ▼
+      Notify all subscribers
+               │
+               ▼
+     PollerDaemon.addMonitor()
+
+
+# The Real Architecture
+
+                JVM
+                 │
+                 ▼
+          Apache Karaf
+                 │
+                 ▼
+      Apache Felix OSGi Framework
+                 │
+                 ▼
+    Service Component Runtime (SCR)
+                 │
+      ┌──────────┴───────────┐
+      │                      │
+Creates Components     Watches Registry
+      │                      │
+      ▼                      ▼
+ PollerDaemon          Service Registry
+
+## SCR builds an internal record that is conceptually like:
+
+PollerDaemon
+
+Needs:
+
+ServiceMonitor
+
+Bind method:
+
+addMonitor()
+
+Unbind method:
+
+removeMonitor()
+
+## Inside SCR (Conceptually)
+
+Imagine SCR maintains a table like this:
+
+Managed Components
+
++----------------+-------------------+
+| Component      | Wants             |
++----------------+-------------------+
+| PollerDaemon   | ServiceMonitor    |
+| Alarmd         | EventForwarder    |
+| REST API       | DatabaseService   |
++----------------+-------------------+
+
+This is not your code.
+
+This is SCR's internal metadata.
+
+## Is SCR a Parent?
+
+No.
+
+The object relationships look like this:
+
+              SCR
+
+         creates objects
+
+      ┌──────────┴──────────┐
+      │                     │
+      ▼                     ▼
+PollerDaemon         SnmpMonitor
+
+SCR owns their lifecycle.
+
+But
+
+PollerDaemon
+
+does not inherit from SCR.
+
+Neither does
+
+SnmpMonitor
+
+They are just normal Java classes.
+
+
+### ------------------------------------------------------------   
 
 **How it works:** When you drop the SNMP `.jar` into the `deploy/` folder, SCR finds the memory pointer for the new `SnmpMonitor`. Because the policy is dynamic, SCR simply invokes `addMonitor(snmpPointer)` on the already-running `PollerDaemon` instance. The polling loop never stops.
 
