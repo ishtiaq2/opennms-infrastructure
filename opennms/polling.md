@@ -56,3 +56,93 @@ Here is how OSGi makes distributed polling seamless:
 Because OpenNMS relies on OSGi interfaces, the system is infinitely extensible without touching the core code.
 
 If your company invents a proprietary piece of hardware that uses a custom TCP protocol, you don't need to ask the OpenNMS developers to add it. You just write a new Java bundle, implement `ServiceMonitor`, and drop your `.jar` into the `deploy/` folder. The PollerDaemon will instantly discover it in the registry and start using it—with zero downtime.
+
+
+
+# You have just asked one of the most advanced and insightful questions about OSGi.
+
+You correctly realized that in standard Java (and frameworks like Spring), if you inject dependencies via a constructor, the only way to add a new dependency to a List is to destroy the object and build a new one.
+
+If OSGi did that, OpenNMS would drop thousands of packets every time a new plugin was installed because the `PollerDaemon` would have to shut down and restart!
+
+To prevent this, OSGi Declarative Services (DS) uses a feature called **Dynamic Reference Policies**. Here is exactly how SCR updates the live object in memory without ever restarting it.
+
+### The Secret: ReferencePolicy.DYNAMIC
+
+When an OpenNMS developer writes the `PollerDaemon` code, they don't just ask for a List. They explicitly tell SCR: *"I want this list to be updated on the fly. Do not reboot me when things change."*
+
+They do this by setting `policy = ReferencePolicy.DYNAMIC` inside the `@Reference` annotation.
+
+When you make a reference dynamic, SCR gives the developer two ways to handle the live injection: **Bind Methods** or **Volatile Fields**.
+
+---
+
+### Method 1: The "Bind/Unbind" Event (The Classic Way)
+
+Instead of injecting the list directly into a variable, the developer gives SCR two helper methods: a `bind` method (to call when a service arrives) and an `unbind` method (to call when it leaves).
+
+```java
+@Component(immediate = true)
+public class PollerDaemon {
+    
+    // A thread-safe list to hold the monitors
+    private final List<ServiceMonitor> monitors = new CopyOnWriteArrayList<>();
+
+    // SCR calls this method on the LIVE object when the SNMP bundle is installed
+    @Reference(
+        cardinality = ReferenceCardinality.MULTIPLE, 
+        policy = ReferencePolicy.DYNAMIC,
+        bind = "addMonitor", 
+        unbind = "removeMonitor"
+    )
+    public void addMonitor(ServiceMonitor newMonitor) {
+        System.out.println("A new monitor arrived! Adding to schedule...");
+        this.monitors.add(newMonitor);
+    }
+
+    // SCR calls this method on the LIVE object if the SNMP bundle is uninstalled
+    public void removeMonitor(ServiceMonitor oldMonitor) {
+        System.out.println("A monitor was removed. Pausing its schedule...");
+        this.monitors.remove(oldMonitor);
+    }
+}
+
+```
+
+**How it works:** When you drop the SNMP `.jar` into the `deploy/` folder, SCR finds the memory pointer for the new `SnmpMonitor`. Because the policy is dynamic, SCR simply invokes `addMonitor(snmpPointer)` on the already-running `PollerDaemon` instance. The polling loop never stops.
+
+---
+
+### Method 2: The "Volatile Field" (The Modern Way)
+
+In newer versions of OSGi (DS 1.3+), developers don't even have to write the `bind` and `unbind` methods. SCR can dynamically swap out the list under the hood using Java Reflection—but only if the developer marks the Java field as `volatile`.
+
+```java
+@Component(immediate = true)
+public class PollerDaemon {
+
+    @Reference(
+        cardinality = ReferenceCardinality.MULTIPLE,
+        policy = ReferencePolicy.DYNAMIC,
+        policyOption = ReferencePolicyOption.GREEDY
+    )
+    // The 'volatile' keyword tells the JVM: "Warning, another thread (SCR) 
+    // might change this memory address at any millisecond."
+    private volatile List<ServiceMonitor> monitors;
+
+    public void pollLoop() {
+        // Because it's volatile, the loop always reads the freshest list.
+        for (ServiceMonitor monitor : monitors) {
+            monitor.poll();
+        }
+    }
+}
+
+```
+
+**How it works:** When the SNMP `.jar` is installed, SCR quietly creates a *brand new list* containing all the old monitors plus the new SNMP one. Then, using reflection, it swaps the `monitors` pointer to look at the new list. Because the field is `volatile`, the PollerDaemon's worker threads instantly see the new list on their next CPU cycle, without missing a beat.
+
+### The Catch (The Default is Static!)
+
+If a developer forgets to add `policy = ReferencePolicy.DYNAMIC`, OSGi defaults to `STATIC`.
+If a reference is static and a new `ServiceMonitor` arrives, **SCR will actually shut down and restart the component** to wire it safely! This strictness forces developers to think very carefully about thread safety when building 24/7 systems like OpenNMS.
