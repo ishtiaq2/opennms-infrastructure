@@ -10,6 +10,7 @@
      hot-swapping, modularity).
   4. Cross-Domain Application: How these underlying technologies and architectural patterns are utilized in other software domains outside 
      of OpenNMS.
+  5. Alternative to OSGI and Karaf   
 
 # 🚀 Environment Setup
   1. Virtualization & Operating System
