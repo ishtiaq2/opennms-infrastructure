@@ -60,7 +60,7 @@ Verify the user groups
 
   Copy the output, sign in to GitHub, navigate to Settings → SSH and GPG keys → New SSH key, paste the key, and save.
 
-### Update Git Remote & Test Connection
+## Update Git Remote & Test Connection
   Test the GitHub SSH connection
   * ssh -T git@github.com
 
@@ -74,7 +74,7 @@ Verify the user groups
   * git config --global user.name "Muhammad Ishtiaq Hussain"
   * git config --global user.email "muis0121@gmail.com"  
 
-### 🔗 Host Machine Integration
+## 🔗 Host Machine Integration
   To write code comfortably from your local development machine (host) while executing it on the CentOS VM, mount the VM's project directory locally using sshfs.
 
   Run this command on your host machine terminal:
