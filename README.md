@@ -81,4 +81,4 @@ Verify the user groups
   Replace <centos-ip> with the actual IP address of your VM
   * sudo sshfs -o allow_other admin@<centos-ip>:/home/admin/opennms-infrastructure ./opennms-infrastructure
 
-You can now open the ./opennms-infrastructure folder in VS Code, IntelliJ, or your preferred local IDE.
+You can now open the ./opennms-infrastructure folder in VS Code, IntelliJ, or your preferred local IDE. aaa
