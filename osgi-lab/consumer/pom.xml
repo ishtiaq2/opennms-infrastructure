@@ -32,6 +32,14 @@
             <version>1.0.0</version>
             <scope>provided</scope> <!-- At runtime, OSGi wires this for us -->
         </dependency>
+
+        <!-- ADD THIS SLF4J DEPENDENCY -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.36</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
