@@ -6,7 +6,7 @@ Because it is built using standard Declarative Services (DS) and the maven-bundl
 # Step 1: Project Structure
   Create a directory named env-provider and set up this exact folder structure:
 
-env-provider/
+env-service-provider/
 ├── pom.xml
 └── src/
     └── main/
