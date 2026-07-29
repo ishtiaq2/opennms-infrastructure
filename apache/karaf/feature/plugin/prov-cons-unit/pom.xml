@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example.osgi</groupId>
+    <artifactId>prov-cons-unit</artifactId>
+    <version>1.0.0</version>
+    
+    <!-- 1. Tell Maven this module outputs a KAR archive -->
+    <packaging>kar</packaging>
+
+    <properties>
+        <karaf.version>4.3.10</karaf.version> <!-- Match your OpenNMS Karaf version -->
+        <karaf.plugin.version>4.3.10</karaf.plugin.version>
+    </properties>
+
+    <!-- 2. Declare the bundles (provider, consumer) you want bundled inside the KAR -->
+    <dependencies>
+        <dependency>
+            <groupId>com.example.osgi</groupId>
+            <artifactId>provider</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.example.osgi</groupId>
+            <artifactId>consumer</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <!-- 3. Include feature.xml in the build resources -->
+            <resource>
+                <directory>src/main/feature</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>feature.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <!-- 4. The Karaf Maven Plugin that performs the assembly -->
+            <plugin>
+                <groupId>org.apache.karaf.tooling</groupId>
+                <artifactId>karaf-maven-plugin</artifactId>
+                <version>${karaf.plugin.version}</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>features-generate-descriptor</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>features-generate-descriptor</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
