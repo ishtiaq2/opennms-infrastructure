@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="osgi-lab-features-1.0.0" 
+          xmlns="http://karaf.apache.org/xmlns/features/v1.6.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.6.0 
+                              http://karaf.apache.org/xmlns/features/v1.6.0">
+
+    <!-- Define your feature -->
+    <feature name="osgi-lab-suite" version="1.0.0" description="OSGi Lab Provider and Consumer Suite">
+        
+        <!-- 1. PREREQUISITE: Ensure Karaf's Declarative Services (SCR) runtime is loaded -->
+        <feature>scr</feature>
+
+        <!-- 2. BUNDLE 1: Provider Bundle -->
+        <!-- start-level="80" ensures core infrastructure starts before business bundles -->
+        <bundle start-level="80" start="true">
+            mvn:com.example.osgi/provider/1.0.0
+        </bundle>
+
+        <!-- 3. BUNDLE 2: Consumer Bundle -->
+        <bundle start-level="80" start="true">
+            mvn:com.example.osgi/consumer/1.0.0
+        </bundle>
+
+    </feature>
+
+</features>

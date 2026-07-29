@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example.ishtiaq</groupId>
-    <artifactId>provider</artifactId>
+    <groupId>com.example.osgi</groupId>
+    <artifactId>consumer</artifactId>
     <version>1.0.0</version>
     
-    <!-- This is critical: tells Maven to build an OSGi bundle instead of a standard JAR -->
+    <!-- Crucial for OSGi: builds a bundle, not a standard JAR -->
     <packaging>bundle</packaging>
 
     <properties>
@@ -17,29 +17,39 @@
     </properties>
 
     <dependencies>
-        <!-- Provides the @Component Declarative Services annotation -->
+        <!-- Provides the @Component, @Reference, @Activate annotations -->
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.service.component.annotations</artifactId>
             <version>1.4.0</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- We must depend on the Provider to see the GreetingService interface -->
+        <dependency>
+            <groupId>com.example.osgi</groupId>
+            <artifactId>provider</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope> <!-- At runtime, OSGi wires this for us -->
+        </dependency>
+
+        <!-- ADD THIS SLF4J DEPENDENCY -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.36</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- The plugin that auto-generates the MANIFEST.MF -->
+            <!-- Generates the OSGi MANIFEST.MF automatically -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <version>5.1.9</version>
                 <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <!-- Expose the interface package so the Consumer can see it -->
-                        <Export-Package>com.example.provider</Export-Package>
-                    </instructions>
-                </configuration>
             </plugin>
         </plugins>
     </build>

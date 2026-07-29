@@ -26,7 +26,7 @@ public class GreetingConsumer {
         LOG.info("=========================================");
         LOG.info("[CONSUMER WAKING UP] Calling the provider...");
         
-        String message = greetingService.sayHello("OpenNMS Developer 2");
+        String message = greetingService.sayHello("Ishtiaq");
         
         LOG.info("[RESPONSE]: {}", message);
         LOG.info("=========================================");
