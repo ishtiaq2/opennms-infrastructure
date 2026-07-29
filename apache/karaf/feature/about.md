@@ -34,16 +34,3 @@ Create a file named feature.xml with the following content:
     </feature>
 
 </features>
-
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<features name="opennms-plugins-firmware_management-features" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
-    <feature name="opennms-plugins-firmware_management" description="OpenNMS :: Plugins :: firmware_management" version="${project.version}">
-        <feature dependency="true">aries-blueprint</feature>
-        <feature dependency="true">shell</feature>
-        <feature dependency="true">opennms-integration-api</feature>
-        <feature dependency="true">jackson</feature>
-        <feature>scr</feature>
-        <bundle>mvn:com.mavenwireless.plugins/firmware_management-plugin/${project.version}</bundle>
-    </feature>
-</features>

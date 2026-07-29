@@ -1,3 +1,79 @@
+┌──────────────────────────────────────────────────────────────────┐
+│                         APACHE KARAF                             │
+│  (CLI Shell, Feature Manager, KAR Packaging, FileInstall, SSH)   │
+├──────────────────────────────────────────────────────────────────┤
+│                         APACHE FELIX                             │
+│     (OSGi Core Specification R7/R8 Framework Implementation)     │
+├──────────────────────────────────────────────────────────────────┤
+│                         JAVA VIRTUAL MACHINE                     │
+│                             (JVM 17+)                            │
+└──────────────────────────────────────────────────────────────────┘
+
+# *********** Apache Karaf  **************************************************** #:
+* An enterprise application container built around an OSGi framework (which defaults to   
+  Apache Felix, though it can also run on Eclipse Equinox). It adds developer tooling, administration interfaces, package managers, and runtime services.
+
+## Interactive SSH Shell
+* Provides a Unix-like CLI (bundle:list, log:tail, scr:details, system:shutdown) over a   
+  secure SSH port (default 8101).
+
+## Karaf Features (feature.xml)	
+* Grouping mechanism for bundling multiple JARs, configuration files, and system 
+  prerequisites into a single logical unit.
+
+## KAR Archives (.kar)	
+* Packaging format that zips an entire feature along with an embedded Maven repository for 
+  self-contained, offline deployments.
+
+## Hot Deployment (FileInstall)	
+* Continuously monitors a local directory (e.g., /usr/share/opennms/deploy/). Dropping a 
+  .jar or .kar automatically installs it into Felix.
+
+## Pax Logging 
+* Integration	Centralizes output from Slf4j, Log4j, and System.out across all OSGi bundles 
+  into a single logging framework (log:tail).
+
+
+## Configuration Admin (Pax ConfigAdmin)
+* Manages system properties and .cfg files, injecting updates into active bundles without 
+  requiring a container restart.  
+
+
+# *********** Apache Felix **************************************************** #: 
+* The core engine implementing the OSGi Alliance specification. It manages module 
+  classloaders, dynamic bundle lifecycle (START, STOP, UNINSTALL), and the in-memory OSGi Service Registry.
+
+## Class Isolation
+## Bundle Lifecycle
+## Service Registry	
+* Maintains an in-memory registry of Java interfaces published by bundles (@Component, 
+  Declarative Services/SCR) and injects them dynamically into consumers.
+
+## Dynamic Wire Resolution
+* Computes dependency graphs on the fly. If Bundle B imports package P provided by 
+   Bundle A, Felix links their ClassLoaders dynamically without restarting the JVM.
+
+
+
+# *********** How They Work Together at Runtime ********************************** #: 
+* When you deploy your application to OpenNMS or Karaf, the workload is split between both 
+  layers:
+  
+[ Step 1: Copy File ] ---> Dropped .kar into /deploy/ directory
+                                     │
+[ Step 2: Karaf Level ] -> Karaf FileInstall extracts embedded Maven repo
+                           & reads feature.xml descriptor
+                                     │
+[ Step 3: Felix Level ] -> Passes JARs to Felix engine; Felix creates 
+                           isolated ClassLoaders & verifies Java imports
+                                     │
+[ Step 4: SCR / DS ]    -> Felix SCR reads OSGI-INF/ component definitions,
+                           instantiates classes, & injects @Reference dependencies
+                                     │
+[ Step 5: Karaf Level ] -> Pax Logging routes @Activate log output to 
+                           karaf.log / standard terminal output
+
+
 # JVM -> Felix -> Karaf -> OpenNMS
 
 # What is Apache Karaf?

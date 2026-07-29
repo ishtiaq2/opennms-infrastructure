@@ -17,7 +17,7 @@ plugin/
 |                                                                                   |
 |   +-----------------------+     Dependency Injection     +--------------------+   |
 |   |    Provider Bundle    | <--------------------------- |  Consumer Bundle   |   |
-|   | com.example.osgi  |      via @Reference          | com.example.osgi   |   |
+|   | com.example.osgi      |      via @Reference          | com.example.osgi   |   |
 |   +-----------------------+                              +--------------------+   |
 |               |                                                     |             |
 |               +-----------------> feature.xml <---------------------+             |
