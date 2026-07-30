@@ -16,8 +16,7 @@ env-service-provider/
                     └── osgi/
                         └── env/
                             ├── EnvService.java
-                            └── impl/
-                                └── EnvServiceImpl.java
+                            └── EnvServiceImpl.java
                                 
 # Step 2: The pom.xml
 

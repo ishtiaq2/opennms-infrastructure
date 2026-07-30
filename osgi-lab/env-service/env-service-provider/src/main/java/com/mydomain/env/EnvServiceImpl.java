@@ -8,12 +8,23 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-// @Component registers this class as a service in the OSGi Service Registry
+/**
+ * @Component: 
+ * This registers EnvServiceImpl as an OSGi service in the OSGi Service Registry implementing EnvService. 
+ * immediate = true means the component is instantiated and 
+ * activated as soon as it's satisfied (its dependencies are met), rather 
+ * than waiting for the first consumer to request the service.
+ */
 @Component(immediate = true)
 public class EnvServiceImpl implements EnvService {
 
     private static final Logger LOG = LoggerFactory.getLogger(EnvServiceImpl.class);
 
+
+    /**
+     * NOTE: Dumping env variables to log is a security risk. 
+     * This is just for illustration purpose and should not be practiced in production.
+     */
     /**
      * The @Activate method is triggered by the OSGi SCR (Service Component Runtime)
      * the exact moment this bundle is successfully deployed and started.
