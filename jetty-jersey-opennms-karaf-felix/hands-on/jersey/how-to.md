@@ -38,3 +38,6 @@ curl http://localhost:8080/api/greet/ishtiaq
 # Return JSON using Jackson:
 
 * Create a POJO (Plain Old Java Object)
+
+sudo firewall-cmd --add-port=8080/tcp --permanent
+sudo firewall-cmd --reload
